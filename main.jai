@@ -1,5 +1,6 @@
 main :: () {
     init_window();
+    init_textures();
     while !window.close {
         render();
     }
@@ -12,6 +13,7 @@ Texture :: Simp.Texture;
 #import "Basic";
 #import "Math";
 #import "File";
+#import "Random";
 #import "Window_Creation";
 
 #load "window.jai";

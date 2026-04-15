@@ -1,9 +1,19 @@
 ASSET_FOLDER :: "assets";
 
+bug_tex: Texture;
+
+init_textures :: () {
+    success: bool;
+    bug_tex, success = load_texture_from_file("bug1.png");
+    assert(success, "Failed to load the damn texture\n");
+}
+
 render :: () {
     Simp.clear_render_target(1, 0, 1, 1);
     // Draw Stuff here
-
+    render_sprite_centered(*bug_tex, .{100, 100}, .{100, 100}, .{1, 1, 1, 1});
+    // Simp.set_shader_for_images(*bug_tex);
+    // Simp.immediate_quad(.{0, 200}, .{100, 200}, .{100, 300}, .{0, 300}, .{1, 1, 1, 1});
     Simp.swap_buffers(window.resource);
 }
 
@@ -29,4 +39,5 @@ render_sprite_centered :: (texture: *Texture, pos: Vector2, size: Vector2, color
     p2 := pos + h + v;
     p3 := pos - h + v;
     Simp.immediate_quad(p0, p1, p2, p3, color);
+    // Simp.immediate_quad(.{0, 200}, .{100, 200}, .{100, 300}, .{0, 300}, .{1, 1, 1, 1});
 }

@@ -3,3 +3,8 @@ Entity :: struct {
     velocity: Vector2;
     map: *Texture;
 }
+
+make_entity :: () {
+    print("New Entity\n");
+    print("Something\n");
+}
