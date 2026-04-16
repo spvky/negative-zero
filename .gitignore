@@ -1,1 +1,2 @@
-.build/
+.build/*
+negative-zero*
