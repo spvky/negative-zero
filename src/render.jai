@@ -9,11 +9,13 @@ init_textures :: () {
 }
 
 render :: () {
-    Simp.clear_render_target(1, 0, 1, 1);
-    // Draw Stuff here
+    #if DEV_MODE {
+        Simp.clear_render_target(0, 1, 0, 1);
+    } else {
+        Simp.clear_render_target(1, 0, 1, 1);
+    }
+    // Draw Scene
     render_entities();
-    // Simp.set_shader_for_images(*bug_tex);
-    // Simp.immediate_quad(.{0, 200}, .{100, 200}, .{100, 300}, .{0, 300}, .{1, 1, 1, 1});
     Simp.swap_buffers(window.resource);
 }
 
