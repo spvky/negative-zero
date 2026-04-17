@@ -14,12 +14,12 @@ render :: () {
     } else {
         Simp.clear_render_target(1, 0, 1, 1);
     }
+    #if DEV_MODE {
+        render_editor_grid();
+    }
     // Draw Scene
+    render_square(cam_relative_position(.{0, 0}), .{10, 10});
     render_entities();
-    // render_line(.{0, 0}, .{100, 200});
-    render_line(.{0, 0}, entities[0].position);
-    center := entities[0].position * 0.5;
-    render_square(center, .{10, 10});
     Simp.swap_buffers(window.resource);
 }
 

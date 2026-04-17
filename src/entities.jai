@@ -13,6 +13,7 @@ make_entity :: (position: Vector2) {
 
 render_entities :: () {
     for e: entities {
-        render_sprite_centered(e.map, e.position, .{100, 100}, .{1, 1, 1, 1});
+        pos := cam_relative_position(e.position);
+        render_sprite_centered(e.map, pos, .{100, 100}, .{1, 1, 1, 1});
     }
 }

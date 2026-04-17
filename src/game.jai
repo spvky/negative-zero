@@ -19,13 +19,17 @@ Texture :: Simp.Texture;
 #import "Math";
 #import "File";
 #import "Random";
+#import "Input";
 #import "Window_Creation";
 #import "Time"(TICK_RATE = 1.0 / 100.0);
 
 #load "window.jai";
 #load "render.jai";
+#load "camera.jai";
 #load "entities.jai";
 #load "simulate.jai";
+#load "input.jai";
+#load "player.jai";
 #load "preload_test.jai";
 
 #if DEV_MODE {
