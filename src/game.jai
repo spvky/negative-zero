@@ -6,7 +6,6 @@ main :: () {
     init_textures();
     make_entity(.{100, 100});
     while !window.close {
-        update_window_events();
         timestep(#code simulate(tickrate()));
         render();
     }
@@ -22,7 +21,7 @@ Texture :: Simp.Texture;
 #import "Random";
 #import "Input";
 #import "Window_Creation";
-#import "Time"(TICK_RATE = 1.0 / 100.0);
+#import "Time"(TICK_RATE = 1.0 / 60.0);
 
 #load "window.jai";
 #load "render.jai";

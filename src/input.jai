@@ -1,4 +1,5 @@
 process_input :: () {
+    update_window_events();
     for event: events_this_frame {
         if event.type == .QUIT {
             window.close = true;
@@ -38,7 +39,7 @@ process_input :: () {
         case;
         }
     }
-    // print("%: %\n", action_frame, seconds_since_init());
+    // print("%: %\n", held_actions, seconds_since_init());
 }
 
 Input_Action :: enum_flags u32 {
