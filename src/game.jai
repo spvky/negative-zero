@@ -6,6 +6,7 @@ main :: () {
     init_textures();
     make_entity(.{100, 100});
     while !window.close {
+        update_window_events();
         timestep(#code simulate(tickrate()));
         render();
     }

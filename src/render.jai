@@ -12,7 +12,7 @@ render :: () {
     #if DEV_MODE {
         Simp.clear_render_target(0, 1, 0, 1);
     } else {
-        Simp.clear_render_target(1, 0, 1, 1);
+        Simp.clear_render_target(0.2, 0.1, 0.5, 1);
     }
     #if DEV_MODE {
         render_editor_grid();
