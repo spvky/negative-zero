@@ -18,6 +18,8 @@ render :: () {
         render_editor_grid();
     }
     // Draw Scene
+    render_collision_shape(tri);
+    render_collision_shape(aabb);
     render_square(cam_relative_position(.{0, 0}), .{10, 10});
     render_entities();
     Simp.swap_buffers(window.resource);

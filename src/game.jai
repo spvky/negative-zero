@@ -1,4 +1,11 @@
+tri: Collision_Shape;
+poly: Collision_Shape;
+aabb: Collision_Shape;
+
 main :: () {
+    tri = make_tri(.[.{50, 200}, .{50, 400}, .{200, 200}]);
+    aabb = make_aabb(.{300, 300}, .{500, 500});
+
     init_window();
     #if DEV_MODE {
         editor_init();
@@ -17,6 +24,7 @@ main :: () {
         simulate(current_dt);
         // timestep(#code simulate(tickrate()));
         render();
+        Collider;
     }
 }
 
@@ -42,6 +50,7 @@ Texture :: Simp.Texture;
 #load "simulate.jai";
 #load "input.jai";
 #load "player.jai";
+#load "collision.jai";
 #load "preload_test.jai";
 
 #if DEV_MODE {
