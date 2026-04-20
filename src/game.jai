@@ -8,7 +8,7 @@ main :: () {
 
     init_window();
     #if DEV_MODE {
-        editor_init();
+        load_editor_assets();
     }
     init_textures();
     make_entity(.{100, 100});
@@ -54,5 +54,8 @@ Texture :: Simp.Texture;
 #load "preload_test.jai";
 
 #if DEV_MODE {
+    Get_Rect :: #import "GetRect";
+    #load "editor/assets.jai";
     #load "editor/editor.jai";
+    #load "editor/ui.jai";
 }

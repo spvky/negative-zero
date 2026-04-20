@@ -72,31 +72,23 @@ render_collision_shape :: (s: Collision_Shape) {
     Simp.set_shader_for_color();
     if s.kind == {
     case .Triangle;
-        Simp.immediate_quad(
-                            s.triangle_verts[0],
-                            s.triangle_verts[0],
-                            s.triangle_verts[1],
-                            s.triangle_verts[2],
-                            .{0, 0.7, 0, 1});
+        p0 := cam_relative_position(s.triangle_verts[0]);
+        p1 := cam_relative_position(s.triangle_verts[1]);
+        p2 := cam_relative_position(s.triangle_verts[2]);
+        Simp.immediate_quad(p0, p0, p1, p2, .{0, 0.7, 0, 1});
 
     case .Polygon;
-        Simp.immediate_quad(
-                            s.polygon_verts[0],
-                            s.polygon_verts[1],
-                            s.polygon_verts[2],
-                            s.polygon_verts[3],
-                            .{0.7, 0, 0, 1});
+        p0 := cam_relative_position(s.polygon_verts[0]);
+        p1 := cam_relative_position(s.polygon_verts[1]);
+        p2 := cam_relative_position(s.polygon_verts[2]);
+        p3 := cam_relative_position(s.polygon_verts[3]);
+        Simp.immediate_quad(p0, p1, p2, p3, .{0.7, 0, 0, 1});
 
     case .AABB;
-        p0: Vector2 = .{s.aabb_extents[0].x, s.aabb_extents[0].y};
-        p1: Vector2 = .{s.aabb_extents[0].x, s.aabb_extents[1].y};
-        p2: Vector2 = .{s.aabb_extents[1].x, s.aabb_extents[1].y};
-        p3: Vector2 = .{s.aabb_extents[1].x, s.aabb_extents[0].y};
-        Simp.immediate_quad(
-                            p0,
-                            p1,
-                            p2,
-                            p3,
-                            .{0, 0, 0.7, 1});
+        p0: Vector2 = cam_relative_position(.{s.aabb_extents[0].x, s.aabb_extents[0].y});
+        p1: Vector2 = cam_relative_position(.{s.aabb_extents[0].x, s.aabb_extents[1].y});
+        p2: Vector2 = cam_relative_position(.{s.aabb_extents[1].x, s.aabb_extents[1].y});
+        p3: Vector2 = cam_relative_position(.{s.aabb_extents[1].x, s.aabb_extents[0].y});
+        Simp.immediate_quad(p0, p1, p2, p3, .{0, 0, 0.7, 1});
     }
 }
