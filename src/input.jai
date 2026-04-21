@@ -1,12 +1,12 @@
 process_input :: () {
     for event: events_this_frame {
         if event.type == .QUIT {
-            window.close = true;
+            n_window.close = true;
             break;
         }
 
         if event.key_code == .ESCAPE {
-            if event.key_pressed window.close = true;
+            if event.key_pressed n_window.close = true;
             break;
         }
 

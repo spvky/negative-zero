@@ -8,11 +8,11 @@ main :: () {
 
     init_window();
     #if DEV_MODE {
-        load_editor_assets();
+        editor_init();
     }
     init_textures();
     make_entity(.{100, 100});
-    while !window.close {
+    while !n_window.close {
         update_window_events();
         now := seconds_since_init();
         delta: float64 = now - last_time;

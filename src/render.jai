@@ -22,7 +22,11 @@ render :: () {
     render_collision_shape(aabb);
     render_square(cam_relative_position(.{0, 0}), .{10, 10});
     render_entities();
-    Simp.swap_buffers(window.resource);
+    Simp.swap_buffers(n_window.resource);
+
+    #if DEV_MODE {
+        render_editor_ui();
+    }
 }
 
 load_texture_from_file :: (name: string) -> Texture, bool {

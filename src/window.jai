@@ -1,4 +1,4 @@
-window: Window;
+n_window: Window;
 
 Window :: struct {
     resource: Window_Type;
@@ -9,6 +9,6 @@ Window :: struct {
 }
 
 init_window :: () {
-    window.resource = create_window(window.width, window.height, window.name);
-    Simp.set_render_target(window.resource);
+    n_window.resource = create_window(n_window.width, n_window.height, n_window.name);
+    Simp.set_render_target(n_window.resource);
 }
