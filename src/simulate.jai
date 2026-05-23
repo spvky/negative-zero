@@ -1,16 +1,16 @@
 simulate :: (delta: float32) {
-    process_input();
+    process_input(delta);
     cam_delta: Vector2;
-    if is_action_pressed(.CAM_UP) {
+    if is_action_held(.CAM_UP) {
         cam_delta.y += 1;
     }
-    if is_action_pressed(.CAM_DOWN) {
+    if is_action_held(.CAM_DOWN) {
         cam_delta.y -= 1;
     }
-    if is_action_pressed(.CAM_LEFT) {
+    if is_action_held(.CAM_LEFT) {
         cam_delta.x -= 1;
     }
-    if is_action_pressed(.CAM_RIGHT) {
+    if is_action_held(.CAM_RIGHT) {
         cam_delta.x += 1;
     }
     camera.target += cam_delta * delta * 100;

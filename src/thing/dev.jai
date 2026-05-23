@@ -1,6 +1,6 @@
 thing_editor_picking :: (tm: *Thing_Room_Manager) {
     pos := mouse_position_to_world();
-    if is_action_pressed(.EDITOR_SELECT) {
+    if is_action_held(.EDITOR_SELECT) {
         if editor_state.locked {
             thing := get_thing_ptr(tm, editor_state.selected_entity_idx);
             verts := get_collision_vertex_collection(thing);

@@ -1,71 +1,4 @@
-process_input :: () {
-    for event: events_this_frame {
-        if event.type == .QUIT {
-            n_window.close = true;
-            break;
-        }
-
-        #if DEV_MODE {
-            Get_Rect.getrect_handle_event(event);
-        }
-
-        // keyboard events
-        if !getrect_captured_keyboard {
-            if event.key_code == {
-            case .ESCAPE;
-                if event.key_pressed {
-                    n_window.close = true;
-                }
-            case .ARROW_UP;
-                if event.key_pressed {
-                    held_actions |= .CAM_UP;
-                } else {
-                    held_actions &= ~.CAM_UP;
-                }
-            case .ARROW_DOWN;
-                if event.key_pressed {
-                    held_actions |= .CAM_DOWN;
-                } else {
-                    held_actions &= ~.CAM_DOWN;
-                }
-            case .ARROW_LEFT;
-                if event.key_pressed {
-                    held_actions |= .CAM_LEFT;
-                } else {
-                    held_actions &= ~.CAM_LEFT;
-                }
-            case .ARROW_RIGHT;
-                if event.key_pressed {
-                    held_actions |= .CAM_RIGHT;
-                } else {
-                    held_actions &= ~.CAM_RIGHT;
-                }
-            case .CTRL;
-                if event.key_pressed {
-                    held_actions |= .EDITOR_LOCK;
-                } else {
-                    held_actions &= ~.EDITOR_LOCK;
-                }
-            case;
-            }
-        }
-
-        // mouse events
-        if !getrect_captured_mouse {
-            if event.key_code == {
-            case .MOUSE_BUTTON_LEFT;
-                if event.key_pressed {
-                    held_actions |= .EDITOR_SELECT;
-                } else {
-                    held_actions &= ~.EDITOR_SELECT;
-                }
-            case;
-            }
-        }
-    }
-}
-
-Input_Action :: enum_flags u32 {
+Input_Action :: enum {
     CAM_UP;
     CAM_DOWN;
     CAM_LEFT;
@@ -79,8 +12,27 @@ Input_Action :: enum_flags u32 {
     EDITOR_LOCK;
 }
 
-held_actions: Input_Action;
-
-is_action_pressed :: (action: Input_Action) -> bool {
-    return (held_actions & action) == action;
+init_input :: () {
+    init_input_buffer();
+    register_input(.CAM_UP, .ARROW_UP);
+    register_input(.CAM_DOWN, .ARROW_DOWN);
+    register_input(.CAM_RIGHT, .ARROW_RIGHT);
+    register_input(.CAM_LEFT, .ARROW_LEFT);
+    register_input(.EDITOR_LOCK, .CTRL);
+    register_input(.EDITOR_SELECT, .MOUSE_BUTTON_LEFT);
 }
+
+process_input :: (delta: float32) {
+    for event: events_this_frame {
+        if event.key_code == .ESCAPE && event.key_pressed {
+            n_window.close = true;
+            break;
+        }
+
+        #if DEV_MODE {
+            Get_Rect.getrect_handle_event(event);
+        }
+    }
+    update_buffer(delta);
+}
+#import "InputBuffer"(ACTION_TYPE = Input_Action);

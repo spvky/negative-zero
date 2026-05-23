@@ -5,21 +5,24 @@ aabb: Collision_Shape;
 getrect_captured_mouse: bool;
 getrect_captured_keyboard: bool;
 
+Test_Action :: enum {
+    Foo;
+    Bar;
+    Jump;
+    Hang;
+    Run;
+}
+
 main :: () {
+    buffer: Input_Buffer(Test_Action);
+    print("Buffer Value Size: %\n", buffer.MAP_SIZE);
     init_window();
     init_textures();
-    read_room_from_file(*current_room, "assets/rooms/Second.room");
+    init_input();
     for room_list() {
         _, _, _, filename := path_decomp(it);
         print("%\n", filename);
     }
-    // current_room.name = copy_string("First");
-    // bug1 := make_character(.{100, 100});
-    // bug2 := make_character(.{300, 250}, .{10, 0});
-    // bug3 := make_character(.{600, 250});
-    // add_thing(*current_room.things, bug1);
-    // add_thing(*current_room.things, bug2);
-    // add_thing(*current_room.things, bug3);
     #if DEV_MODE {
         editor_init();
     }
@@ -33,8 +36,8 @@ main :: () {
         if current_dt > DT_MAX current_dt = DT_MAX;
 
         last_time = now;
+        process_input(current_dt);
         simulate(current_dt);
-        // timestep(#code simulate(tickrate()));
         render();
         reset_temporary_storage();
     }
@@ -56,7 +59,6 @@ File_Util :: #import "File_Utilities";
 #import "Input";
 #import "String";
 #import "Window_Creation";
-// #import "Time"(TICK_RATE = 1.0 / 60.0);
 
 #load "window.jai";
 #load "render.jai";

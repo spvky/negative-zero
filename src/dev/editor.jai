@@ -70,7 +70,6 @@ render_editor_grid :: () {
 
 current_theme: s32 = xx Get_Rect.Default_Themes.Default;
 my_theme: Get_Rect.Overall_Theme; // This gets filled out by calling the Theme_Proc for current_theme.
-inspector_window: Get_Rect.Subwindow_Info;
 
 render_editor_ui :: () {
     Simp.set_shader_for_color();
@@ -80,7 +79,8 @@ render_editor_ui :: () {
     current_time := to_float64_seconds(current_time_monotonic());
     w, h := Simp.get_render_dimensions(n_window.resource);
 
-    getrect_captured_mouse, getrect_captured_keyboard = Get_Rect.ui_per_frame_update(n_window.resource, w, h, current_time);
+    captured_mouse, captured_keyboard := Get_Rect.ui_per_frame_update(n_window.resource, w, h, current_time);
+    set_capture_input(!(captured_mouse || captured_keyboard));
 
     Get_Rect.add_subwindow(*inspector_subwindow, *my_theme.subwindow_theme);
     Get_Rect.add_subwindow(*actions_subwindow, *my_theme.subwindow_theme);
@@ -465,7 +465,7 @@ draw_action_cursor :: () {
 }
 
 consume_editor_inputs :: () {
-    if is_action_pressed(.EDITOR_SELECT) {
+    if is_action_buffered(.EDITOR_SELECT) {
         pos := mouse_position_to_world();
         if editor_state.action_state == {
         case .MAKE_AABB;
@@ -491,7 +491,7 @@ consume_editor_inputs :: () {
         }
     }
 
-    if is_action_pressed(.EDITOR_LOCK) {
+    if is_action_held(.EDITOR_LOCK) {
         editor_state.locked = true;
     } else {
         editor_state.locked = false;

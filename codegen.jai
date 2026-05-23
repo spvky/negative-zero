@@ -3,6 +3,7 @@ Editor_Codegen_Field :: struct {
     member_name: string;
     member_type: Type;
     member_type_name: string;
+    member_notes: [..]string;
 }
 
 PLACEHOLDER_INSERTION_STRING :: #string END
@@ -11,49 +12,48 @@ draw_character_data_fields :: () #expand {
 }
 END
 
-// VEC2_INSPECTOR_STRING :: #string END
-// 	%1_label_rect := Get_Rect.get_rect(`label_left_margin, `y_pos, `label_extents.x, `label_extents.y);
-// 	// shift y_pos when we finish defining rects for a row
-// 	`y_pos -= (`label_extents.y + 5);
-// 	%1_x_rect := Get_Rect.get_rect(`text_left_margin, `y_pos, `text_extents.x, `text_extents.y);
-// 	%1_y_rect := Get_Rect.get_rect(`text_left_margin + `text_extents.x + 5, `y_pos, `text_extents.x, `text_extents.y);
-// 	`y_pos -= (`text_extents.y + 10);
-// 
-// 
-//   Get_Rect.label(%1_label_rect, "%1", *my_theme.label_theme);
-// 
-// 	{
-// 		x_str := float_str(`entity.%2.x);
-// 		action_x, new_text_x, state_x := Get_Rect.text_input(%1_x_rect, x_str, *my_theme.text_input_theme);
-// 		if action_x & .ENTERED {
-// 				if modify_float_from_string(*`entity.%2.x, new_text_x) {
-// 						new_x_str := float_str(`entity.%2.x);
-// 				}
-// 		}
-// 		if !state_x.active {
-// 				Get_Rect.reset(state_x);
-// 		}
-// 	}
-// 
-//   {
-// 		y_str := float_str(`entity.%2.y);
-// 		action_y, new_text_y, state_y := Get_Rect.text_input(%1_y_rect, y_str, *my_theme.text_input_theme);
-// 		if action_y & .ENTERED {
-// 				if modify_float_from_string(*`entity.%2.y, new_text_y) {
-// 						new_y_str := float_str(`entity.%2.y);
-// 				}
-// 		}
-// 		if !state_y.active {
-// 				Get_Rect.reset(state_y);
-// 		}
-//   }
-// END
+VEC2_ARRAY_INSPECTOR_STRING :: #string END
+%3{
+	//1 for the label and 2 for each Vector
+	rects: [1 + (%4 * 2)]Get_Rect.Rect;
+	rects[0] = Get_Rect.get_rect(`label_left_margin, `y_pos, `label_extents.x, `label_extents.y);
+  Get_Rect.label(rects[0], "%1", *my_theme.label_theme, identifier = 0);
+	`y_pos -= (`label_extents.y + 5);
 
-/* Params
-	1: Label
-	2: Access Pattern
-	3: Condition
-*/
+	for i: 0..%4 {
+		rects[i+1] = Get_Rect.get_rect(`text_left_margin, `y_pos, `text_extents.x, `text_extents.y);
+		rects[i+2] = Get_Rect.get_rect(`text_left_margin + `text_extents.x + 5, `y_pos, `text_extents.x, `text_extents.y);
+		`y_pos -= (`text_extents.y + 10);
+
+		{
+			x_str := float_str(`entity.%2.x);
+			action_x, new_text_x, state_x := Get_Rect.text_input(rects[1], x_str, *my_theme.text_input_theme);
+			if action_x & .ENTERED {
+					if modify_float_from_string(*`entity.%2[i].x, new_text_x) {
+							new_x_str := float_str(`entity.%2[i].x);
+					}
+			}
+			if !state_x.active {
+					Get_Rect.reset(state_x);
+			}
+		}
+
+		{
+			y_str := float_str(`entity.%2.y);
+			action_y, new_text_y, state_y := Get_Rect.text_input(rects[2], y_str, *my_theme.text_input_theme);
+			if action_y & .ENTERED {
+					if modify_float_from_string(*`entity.%2[i].y, new_text_y) {
+							new_y_str := float_str(`entity.%2[i].y);
+					}
+			}
+			if !state_y.active {
+					Get_Rect.reset(state_y);
+			}
+		}
+	}
+}
+END
+
 VEC2_INSPECTOR_STRING :: #string END
 %3{
 	rects: [3]Get_Rect.Rect;
@@ -94,15 +94,6 @@ VEC2_INSPECTOR_STRING :: #string END
   }
 }
 END
-
-// Building block for Vec2 editor fields
-// vec2_inspector_field :: (label_text: string, access_pattern: string) -> string {
-//     return tprint(VEC2_INSPECTOR_STRING, label_text, access_pattern);
-// }
-// 
-// vec2_inspector_field :: (label_text: string) -> string {
-//     return tprint(VEC2_INSPECTOR_STRING, label_text, label_text);
-// }
 
 vec2_inspector_field :: (labels: []string, access_pattern: []string, count: int = 0, condition: string = "") -> string {
     output: String_Builder;
