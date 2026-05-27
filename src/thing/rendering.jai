@@ -23,11 +23,17 @@ render_single_thing :: (thing: *Thing) {
             p2 := pos + thing.triangle_verts[2];
             Simp.immediate_quad(p0, p0, p1, p2, .{0, 0.7, 0, 1});
         case .POLYGON;
+            Simp.set_shader_for_images(*bug_tex);
+            origin_shift: Vector2 = .{50, -50};
             p0 := pos + thing.polygon_verts[0];
+            uv0 := (origin_shift + thing.polygon_verts[0]) / 100;
             p1 := pos + thing.polygon_verts[1];
+            uv1 := (origin_shift + thing.polygon_verts[1]) / 100;
             p2 := pos + thing.polygon_verts[2];
+            uv2 := (origin_shift + thing.polygon_verts[2]) / 100;
             p3 := pos + thing.polygon_verts[3];
-            Simp.immediate_quad(p0, p1, p2, p3, .{0.7, 0, 0, 1});
+            uv3 := (origin_shift + thing.polygon_verts[3]) / 100;
+            Simp.immediate_quad(p0, p1, p2, p3, .{0.7, 0, 0, 1}, uv0, uv1, uv2, uv3);
         }
     }
 }
